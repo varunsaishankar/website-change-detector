@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Compare versions</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 30px; }
+        table.diff { font-family: Consolas, monospace; font-size: 14px; border: 1px solid #ccc; }
+        .diff_header { background: #e0e0e0; padding: 4px; }
+        td.diff_header { text-align: right; }
+        .diff_next { background: #c0c0c0; }
+        .diff_add { background: #aaffaa; }
+        .diff_chg { background: #ffff77; }
+        .diff_sub { background: #ffaaaa; }
+    </style>
+</head>
+<body>
+    <p><a href="javascript:history.back()">&larr; Back to history</a></p>
+    <h1>Text changes</h1>
+    <p><span style="background:#ffaaaa">red = removed</span> &nbsp;
+       <span style="background:#aaffaa">green = added</span> &nbsp;
+       <span style="background:#ffff77">yellow = changed</span></p>
+    {{ table|safe }}
+</body>
+</html>

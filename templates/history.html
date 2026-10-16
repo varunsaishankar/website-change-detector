@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>History</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 900px; margin: 30px auto; padding: 0 15px; }
+        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+        th, td { border-bottom: 1px solid #ddd; padding: 10px; text-align: left; }
+        th { background: #333; color: white; }
+        button { padding: 8px 14px; cursor: pointer; }
+        img { max-width: 120px; border: 1px solid #ccc; }
+    </style>
+</head>
+<body>
+    <p><a href="/">&larr; Back to dashboard</a></p>
+    <h1>History: {{ page["name"] }}</h1>
+    <p>{{ page["url"] }}</p>
+
+    {% if snapshots|length < 2 %}
+        <p>Need at least 2 saved versions to compare. Versions are saved only when the content changes.</p>
+    {% endif %}
+
+    <form method="GET" action="/diff">
+        <table>
+            <tr><th>Old</th><th>New</th><th>Version</th><th>Saved at</th><th>Screenshot</th></tr>
+            {% for s in snapshots %}
+            <tr>
+                <td><input type="radio" name="old" value="{{ s['id'] }}" {% if loop.index == 2 %}checked{% endif %}></td>
+                <td><input type="radio" name="new" value="{{ s['id'] }}" {% if loop.index == 1 %}checked{% endif %}></td>
+                <td>#{{ s['id'] }}</td>
+                <td>{{ s['created_at'] }}</td>
+                <td><a href="/{{ s['screenshot'] }}" target="_blank">view</a></td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% if snapshots|length >= 2 %}
+        <button type="submit">Compare selected</button>
+        {% endif %}
+    </form>
+</body>
+</html>

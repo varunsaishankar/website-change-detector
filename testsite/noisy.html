@@ -1,0 +1,10 @@
+<html><body>
+<h1>Noisy page</h1>
+<p>Current time: <span id="t"></span></p>
+<p>Visitors: <span id="v"></span></p>
+<p>Real content: version 1</p>
+<script>
+document.getElementById("t").textContent = new Date().toLocaleTimeString();
+document.getElementById("v").textContent = Math.floor(Math.random() * 100000) + " views";
+</script>
+</body></html>

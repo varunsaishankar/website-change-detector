@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Website Change Detector</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 900px; margin: 30px auto; padding: 0 15px; }
+        h1 { color: #333; }
+        form { background: #f4f4f4; padding: 15px; border-radius: 8px; margin-bottom: 25px; }
+        input, select { padding: 8px; margin: 5px; }
+        button { padding: 8px 14px; cursor: pointer; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { border-bottom: 1px solid #ddd; padding: 10px; text-align: left; }
+        th { background: #333; color: white; }
+        .OK { color: green; font-weight: bold; }
+        .error { color: red; font-weight: bold; }
+        .blocked { color: orange; font-weight: bold; }
+        .NEW { color: gray; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>Website Change Detector</h1>
+
+        <form method="POST" action="/add">
+        <input type="text" name="name" placeholder="Name (e.g. College results)" required>
+        <input type="url" name="url" placeholder="https://example.com" required>
+        <select name="interval">
+            
+            <option value="15">Every 15 min</option>
+            <option value="30">Every 30 min</option>
+            <option value="60">Every 1 hour</option>
+            <option value="360">Every 6 hours</option>
+            <option value="1440">Every 24 hours</option>
+        </select>
+        <select name="sensitivity">
+            <option value="high">Sensitivity: High</option>
+            <option value="medium" selected>Sensitivity: Medium</option>
+            <option value="low">Sensitivity: Low</option>
+        </select>
+        <button type="submit">Add page</button>
+    </form>
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>URL</th>
+            <th>Interval</th>
+            <th>Sensitivity</th>
+            <th>Last checked</th>
+            
+            <th>Last changed</th>
+            <th>Status</th>
+            <th></th>
+        </tr>
+        {% for p in pages %}
+        <tr>
+                        <td>{{ p["name"] }}</td>
+            <td>{{ p["url"] }}</td>
+            <td>{{ p["interval_minutes"] }} min</td>
+            <td>{{ p["sensitivity"] }}</td>
+            <td>{{ p["last_checked"] or "-" }}</td>
+            <td>{{ p["last_changed"] or "-" }}</td>
+            <td class="{{ p['status'] }}">{{ p["status"] }}</td>
+            <td>
+                                <form method="POST" action="/check/{{ p['id'] }}" style="margin:0;padding:0;background:none;">
+                    <button type="submit">Check now</button>
+                </form>
+                <a href="/history/{{ p['id'] }}">History</a>
+            </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="8">No pages yet. Add one above.</td></tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
