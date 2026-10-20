@@ -110,6 +110,12 @@ def get_snapshots(page_id):
     conn.close()
     return rows
 
+def get_snapshot(snapshot_id):
+    conn = get_connection()
+    row = conn.execute("SELECT * FROM snapshots WHERE id = ?", (snapshot_id,)).fetchone()
+    conn.close()
+    return row
+
 
 def save_snapshot(page_id, text, text_hash, screenshot):
     now = datetime.now().isoformat(timespec="seconds")
@@ -123,3 +129,9 @@ def save_snapshot(page_id, text, text_hash, screenshot):
     conn.commit()
     conn.close()
     return snapshot_id
+
+def get_snapshot(snapshot_id):
+    conn = get_connection()
+    row = conn.execute("SELECT * FROM snapshots WHERE id = ?", (snapshot_id,)).fetchone()
+    conn.close()
+    return row
